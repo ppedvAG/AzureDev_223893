@@ -1,9 +1,16 @@
 ﻿using Azure.Storage.Queues;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 Console.WriteLine("*** Azure Queue Sender ***");
 
-var conString = "DefaultEndpointsProtocol=https;AccountName=mystoragefun;AccountKey=HvsTakf4kCu47HQjIbjUDIbrKV82LCHgPDXEejA2SP0TyVDkTej49fqK80c/lvVFCr/mTDzw/ZeD+AStMsoCWw==;EndpointSuffix=core.windows.net";
-var queueName = "zeug";
+
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json")
+                                       .AddUserSecrets(Assembly.GetExecutingAssembly())
+                                       .Build();
+
+var conString = config.GetSection("ConString").Value;
+var queueName = config.GetSection("QueueName").Value;
 
 var client = new QueueClient(conString, queueName);
 
