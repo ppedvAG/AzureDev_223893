@@ -7,8 +7,10 @@ var queueName = "zeug";
 
 var client = new QueueClient(conString, queueName);
 
-
-for (int i = 0; i < 10; i++)
+for (int i = 0; i < 1000; i++)
 {
-    client.SendMessage($"Hallo {DateTime.Now:G}");
+    var msg = $"Hallo {DateTime.Now:G}";
+    client.SendMessage(msg);
+    Console.WriteLine($"MSG gesendet {msg}");
+    Thread.Sleep(200);
 }
